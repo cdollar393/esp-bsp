@@ -48,6 +48,7 @@ typedef struct {
     int task_stack;         /*!< LVGL task stack size */
     int task_affinity;      /*!< LVGL task pinned to core (-1 is no affinity) */
     int task_max_sleep_ms;  /*!< Maximum sleep in LVGL task */
+    int task_stop_to_ms;    /*!< LVGL stop task timeout in ms */
     int timer_period_ms;    /*!< LVGL timer tick period in ms */
 } lvgl_port_cfg_t;
 
@@ -140,6 +141,7 @@ typedef struct {
         .task_stack = 4096,       \
         .task_affinity = -1,      \
         .task_max_sleep_ms = 500, \
+        .task_stop_to_ms = 3000,  \
         .timer_period_ms = 5,     \
     }
 
@@ -164,6 +166,7 @@ esp_err_t lvgl_port_init(const lvgl_port_cfg_t *cfg);
  *
  * @return
  *      - ESP_OK                    on success
+ *      - ESP_ERR_TIMEOUT           when stopping the LVGL task times out
  */
 esp_err_t lvgl_port_deinit(void);
 
